@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Destinations — Aperture Assets</title>
+<meta name="description" content="Photographic bodies of work gathered by place — travel & landscape photography by Aperture Assets.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200..700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css?v=4">
+</head>
+<body>
+
+<header class="header">
+  <div class="container header__inner">
+    <a class="brand" href="index.html" aria-label="Aperture Assets — home">
+      <img class="brand__logo" src="images/logo.png" alt="Aperture Assets" width="1392" height="275">
+      <span class="brand__tag">Captured Honestly</span>
+    </a>
+    <nav class="nav" aria-label="Primary">
+      <a href="destinations.html" aria-current="page">Destinations</a>
+      <a href="gallery.html">Gallery</a>
+      <a href="camera-bag.html">The Camera Bag</a>
+      <a href="about.html">About</a>
+    </nav>
+    <button class="burger" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-menu"><span></span><span></span><span></span></button>
+  </div>
+</header>
+
+<div class="mobile-menu" id="mobile-menu" aria-hidden="true">
+  <nav aria-label="Mobile"><ul>
+    <li><a href="index.html">Home</a></li>
+    <li><a href="destinations.html">Destinations</a></li>
+    <li><a href="gallery.html">Gallery</a></li>
+    <li><a href="camera-bag.html">The Camera Bag</a></li>
+    <li><a href="about.html">About</a></li>
+  </ul></nav>
+  <div class="mobile-menu__foot"><span>Captured Honestly</span><span>Est. 2019</span></div>
+</div>
+
+<main>
+<section class="page-hero">
+  <canvas class="particles" aria-hidden="true"></canvas>
+  <div class="container">
+    <p class="kicker" data-reveal>Destinations</p>
+    <h1 class="display" data-reveal>Places visited.<br>Experiences shared.</h1>
+    <p class="lead page-hero__sub" data-reveal>Every destination has its own story, gallery and travel guide. From photography and itineraries to real world costs and lessons learned, you'll find everything in one place.</p>
+  </div>
+</section>
+
+<section class="section" style="padding-top:0">
+  <div class="container">
+    <div class="dest-grid stagger">
+      <a class="dest-card" href="japan.html" data-reveal>
+        <div class="media"><img src="images/dest-01.jpg" alt="Japan" width="1200" height="1500" loading="lazy"></div>
+        <div class="dest-card__body"><span class="dest-card__name">Japan</span><span class="dest-card__count">13 days</span></div>
+      </a>
+      <a class="dest-card" href="new-zealand.html" data-reveal>
+        <div class="media"><img src="images/dest-02.jpg" alt="New Zealand" width="1200" height="1500" loading="lazy"></div>
+        <div class="dest-card__body"><span class="dest-card__name">New Zealand</span><span class="dest-card__count">18 days</span></div>
+      </a>
+      <a class="dest-card" href="south-korea.html" data-reveal>
+        <div class="media"><img src="images/dest-03.jpg" alt="South Korea" width="1200" height="1500" loading="lazy"></div>
+        <div class="dest-card__body"><span class="dest-card__name">South Korea</span><span class="dest-card__count">13 days</span></div>
+      </a>
+      <a class="dest-card" href="amsterdam.html" data-reveal>
+        <div class="media"><img src="images/dest-04.jpg" alt="Amsterdam" width="1200" height="1500" loading="lazy"></div>
+        <div class="dest-card__body"><span class="dest-card__name">Amsterdam</span><span class="dest-card__count">3 days</span></div>
+      </a>
+      <a class="dest-card" href="monaco.html" data-reveal>
+        <div class="media"><img src="images/dest-05.jpg" alt="Monaco" width="1200" height="1500" loading="lazy"></div>
+        <div class="dest-card__body"><span class="dest-card__name">Monaco</span><span class="dest-card__count">4 days</span></div>
+      </a>
+      <a class="dest-card" href="chicago.html" data-reveal>
+        <div class="media"><img src="images/dest-06.jpg" alt="Chicago" width="1200" height="1500" loading="lazy"></div>
+        <div class="dest-card__body"><span class="dest-card__name">Chicago</span><span class="dest-card__count">5 days</span></div>
+      </a>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer__top">
+      <div class="footer__brand">
+        <img class="brand__logo brand__logo--footer" src="images/logo.png" alt="Aperture Assets" width="1392" height="275">
+      </div>
+      <div class="footer__col"><h4>Explore</h4><ul>
+        <li><a href="destinations.html">Destinations</a></li><li><a href="gallery.html">Gallery</a></li>
+        <li><a href="camera-bag.html">The Camera Bag</a></li><li><a href="about.html">About</a></li>
+      </ul></div>
+    </div>
+    <div class="footer__bottom">
+      <span>© <span id="year">2026</span> Aperture Assets — Captured Honestly.</span>
+      <span>United Kingdom · Worldwide</span>
+    </div>
+  </div>
+</footer>
+
+<script src="js/main.js"></script>
+</body>
+</html>

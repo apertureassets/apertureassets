@@ -1,106 +1,141 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ApertureAssets</title>
-    <style>
-        body {
-            margin: 0;
-            font-family: Arial, sans-serif;
-            background: #ffffff;
-            color: #1d1d1d;
-        }
-        nav {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 24px 8%;
-            background: white;
-        }
-        .logo {
-            font-size: 1.5rem;
-            font-weight: bold;
-        }
-        nav ul {
-            list-style: none;
-            display: flex;
-            gap: 24px;
-            padding: 0;
-            margin: 0;
-        }
-        .hero {
-    min-height: 90vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    padding: 40px 20px;
-    background: linear-gradient(
-        rgba(0,0,0,0.35),
-        rgba(0,0,0,0.35)
-    ),
-    url('https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1600&q=80');
-    background-size: cover;
-    background-position: center;
-    color: white;
-}
-        .hero-content {
-            max-width: 700px;
-            padding: 20px;
-        }
-        h1 {
-    font-size: 3.5rem;
-    line-height: 1.1;
-    margin-bottom: 20px;
-}
-        p {
-            font-size: 1.2rem;
-            line-height: 1.6;
-        }
-        .button {
-            display: inline-block;
-            margin-top: 20px;
-            padding: 14px 28px;
-            background: #1d1d1d;
-            color: white;
-            text-decoration: none;
-            border-radius: 6px;
-        }
-        footer {
-            text-align: center;
-            padding: 40px;
-            background: #fafafa;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Aperture Assets — Honest Travel Guides</title>
+<meta name="description" content="Honest travel guides combining authentic photography, realistic itineraries and transparent budgets — so you know what a trip really takes before you book.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200..700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css?v=4">
 </head>
 <body>
-<nav>
-   <div class="logo">
-    ApertureAssets
-    <div style="font-size:0.75rem;font-weight:400;letter-spacing:2px;">
-        Captured Honestly
-    </div>
+
+<!-- ============ HEADER ============ -->
+<header class="header header--over-hero">
+  <div class="container header__inner">
+    <a class="brand" href="index.html" aria-label="Aperture Assets — home">
+      <img class="brand__logo" src="images/logo.png" alt="Aperture Assets" width="1392" height="275">
+      <span class="brand__tag">Captured Honestly</span>
+    </a>
+    <nav class="nav" aria-label="Primary">
+      <a href="destinations.html">Destinations</a>
+      <a href="gallery.html">Gallery</a>
+      <a href="camera-bag.html">The Camera Bag</a>
+      <a href="about.html">About</a>
+    </nav>
+    <button class="burger" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-menu"><span></span><span></span><span></span></button>
+  </div>
+</header>
+
+<div class="mobile-menu" id="mobile-menu" aria-hidden="true">
+  <nav aria-label="Mobile"><ul>
+    <li><a href="index.html">Home</a></li>
+    <li><a href="destinations.html">Destinations</a></li>
+    <li><a href="gallery.html">Gallery</a></li>
+    <li><a href="camera-bag.html">The Camera Bag</a></li>
+    <li><a href="about.html">About</a></li>
+  </ul></nav>
+  <div class="mobile-menu__foot"><span>Captured Honestly</span><span>Est. 2019</span></div>
 </div>
-    <ul>
-        <li>Destinations</li>
-        <li>Itineraries</li>
-        <li>Photography</li>
-        <li>About</li>
-    </ul>
-</nav>
-<section class="hero">
-    <div class="hero-content">
-        <h1>Real Destinations.<br>Real Costs.<br>Real Decisions.</h1>
-        <p>
-    Honest travel experiences, practical itineraries and
-    real-world costs for busy professionals.
-</p>
-        <a href="#" class="button">Explore Destinations</a>
-    </div>
+
+<main>
+<!-- ============ HERO ============ -->
+<section class="hero hero--full">
+  <div class="hero__media" data-reveal-img>
+    <img src="images/hero.jpg" alt="A wide, soft-lit landscape under an open sky" fetchpriority="high" width="2400" height="1500">
+  </div>
+  <canvas class="particles" aria-hidden="true"></canvas>
+  <div class="container hero__content">
+    <h1 class="display hero__intro" data-reveal>Real costs.<br>Real experiences.<br>Real decisions.</h1>
+    <p class="lead hero__sub" data-reveal>Honest travel guides combining authentic photography, realistic itineraries and transparent budgets &mdash; so you know what a trip really takes before you book.</p>
+  </div>
 </section>
-<footer>
-    © ApertureAssets
+
+<!-- ============ DESTINATIONS TEASER ============ -->
+<section class="section">
+  <div class="container">
+    <div class="head-row">
+      <div>
+        <p class="kicker" data-reveal>Destinations</p>
+        <h2 data-reveal style="max-width:none">Destination highlights</h2>
+      </div>
+      <a href="destinations.html" class="link-underline" data-reveal>All destinations <span class="arrow">&rarr;</span></a>
+    </div>
+    <div class="dest-grid dest-grid--home stagger">
+      <a class="dest-card" href="japan.html" data-reveal>
+        <div class="media"><img src="images/dest-02.jpg" alt="Japan &mdash; a quiet town waking in blue hour" width="1200" height="1500" loading="lazy"></div>
+        <div class="dest-card__body"><span class="dest-card__name">Japan</span><span class="dest-card__count">14 days</span></div>
+      </a>
+      <a class="dest-card" href="new-zealand.html" data-reveal>
+        <div class="media"><img src="images/dest-04.jpg" alt="New Zealand &mdash; a fjord ridge disappearing into mist" width="1200" height="1500" loading="lazy"></div>
+        <div class="dest-card__body"><span class="dest-card__name">New Zealand</span><span class="dest-card__count">18 days</span></div>
+      </a>
+      <a class="dest-card" href="south-korea.html" data-reveal>
+        <div class="media"><img src="images/dest-05.jpg" alt="South Korea &mdash; quiet coastal light on old-town facades" width="1200" height="1500" loading="lazy"></div>
+        <div class="dest-card__body"><span class="dest-card__name">South Korea</span><span class="dest-card__count">10 days</span></div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PHOTOGRAPHY TEASER ============ -->
+<section class="section bg-2">
+  <div class="container">
+    <div class="head-row">
+      <div>
+        <p class="kicker" data-reveal>Photography</p>
+        <h2 data-reveal>Collections</h2>
+      </div>
+      <a href="gallery.html" class="link-underline" data-reveal>All photography <span class="arrow">&rarr;</span></a>
+    </div>
+    <div class="dest-grid dest-grid--pair stagger">
+      <a class="dest-card" href="gallery.html" data-reveal>
+        <div class="media"><img src="images/port-06.jpg" alt="Landscape &mdash; low cloud drifting across open country" width="1200" height="1500" loading="lazy"></div>
+        <div class="dest-card__body"><span class="dest-card__name">Landscape</span></div>
+      </a>
+      <a class="dest-card" href="gallery.html" data-reveal>
+        <div class="media"><img src="images/port-04.jpg" alt="Travel &mdash; blue hour settling over a scene in rural Japan" width="1200" height="1500" loading="lazy"></div>
+        <div class="dest-card__body"><span class="dest-card__name">Travel</span></div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ============ ETHOS STATEMENT ============ -->
+<section class="section">
+  <div class="container ethos-strip">
+    <div class="center" data-reveal><span class="kicker plain">Captured Honestly</span></div>
+    <p class="statement" data-reveal style="margin-top:1.6rem">A travel planning resource for people who value authenticity over influence &mdash; combining photography, finance and practical travel advice to help readers understand what trips actually cost, how long they take and whether they&rsquo;re worth it.</p>
+  </div>
+</section>
+</main>
+
+<!-- ============ FOOTER ============ -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer__top">
+      <div class="footer__brand">
+        <img class="brand__logo brand__logo--footer" src="images/logo.png" alt="Aperture Assets" width="1392" height="275">
+      </div>
+      <div class="footer__col">
+        <h4>Explore</h4>
+        <ul>
+          <li><a href="destinations.html">Destinations</a></li>
+          <li><a href="gallery.html">Gallery</a></li>
+          <li><a href="camera-bag.html">The Camera Bag</a></li>
+          <li><a href="about.html">About</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer__bottom">
+      <span>&copy; <span id="year">2026</span> Aperture Assets &mdash; Captured Honestly.</span>
+      <span>United Kingdom &middot; Worldwide</span>
+    </div>
+  </div>
 </footer>
+
+<script src="js/main.js"></script>
 </body>
 </html>

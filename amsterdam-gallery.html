@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Amsterdam — Aperture Assets</title>
+<meta name="description" content="Amsterdam — a selection of photography from Aperture Assets.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200..700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css?v=4">
+</head>
+<body>
+
+<header class="header">
+  <div class="container header__inner">
+    <a class="brand" href="index.html" aria-label="Aperture Assets — home">
+      <img class="brand__logo" src="images/logo.png" alt="Aperture Assets" width="1392" height="275">
+      <span class="brand__tag">Captured Honestly</span>
+    </a>
+    <nav class="nav" aria-label="Primary">
+      <a href="destinations.html">Destinations</a>
+      <a href="gallery.html" aria-current="page">Gallery</a>
+      <a href="camera-bag.html">The Camera Bag</a>
+      <a href="about.html">About</a>
+    </nav>
+    <button class="burger" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-menu"><span></span><span></span><span></span></button>
+  </div>
+</header>
+
+<div class="mobile-menu" id="mobile-menu" aria-hidden="true">
+  <nav aria-label="Mobile"><ul>
+    <li><a href="index.html">Home</a></li>
+    <li><a href="destinations.html">Destinations</a></li>
+    <li><a href="gallery.html">Gallery</a></li>
+    <li><a href="camera-bag.html">The Camera Bag</a></li>
+    <li><a href="about.html">About</a></li>
+  </ul></nav>
+  <div class="mobile-menu__foot"><span>Captured Honestly</span><span>Est. 2019</span></div>
+</div>
+
+<main>
+<section class="page-hero">
+  <div class="container">
+    <p class="page-hero__back" data-reveal><a href="gallery.html" class="link-underline"><span class="arrow" style="display:inline-block;transform:rotate(180deg)">→</span> Back to gallery</a></p>
+    <h1 class="display" data-reveal>Amsterdam</h1>
+    <p class="lead page-hero__sub" data-reveal>Select any frame to view it larger.</p>
+  </div>
+</section>
+
+<section class="section" style="padding-top:0">
+  <div class="container container--wide">
+    <div class="gallery-grid stagger">
+      <figure class="photo-tile" data-reveal>
+        <div class="media lb-item" data-caption="Amsterdam · 01">
+          <img src="images/port-01.jpg" alt="Amsterdam — photograph 1" width="1200" height="1500" loading="lazy">
+        </div>
+      </figure>
+      <figure class="photo-tile" data-reveal>
+        <div class="media lb-item" data-caption="Amsterdam · 02">
+          <img src="images/port-03.jpg" alt="Amsterdam — photograph 2" width="1200" height="1500" loading="lazy">
+        </div>
+      </figure>
+      <figure class="photo-tile" data-reveal>
+        <div class="media lb-item" data-caption="Amsterdam · 03">
+          <img src="images/port-05.jpg" alt="Amsterdam — photograph 3" width="1200" height="1500" loading="lazy">
+        </div>
+      </figure>
+      <figure class="photo-tile landscape" data-reveal>
+        <div class="media lb-item" data-caption="Amsterdam · 04">
+          <img src="images/port-02.jpg" alt="Amsterdam — landscape photograph 4" width="1600" height="1067" loading="lazy">
+        </div>
+      </figure>
+      <figure class="photo-tile landscape" data-reveal>
+        <div class="media lb-item" data-caption="Amsterdam · 05">
+          <img src="images/port-04.jpg" alt="Amsterdam — landscape photograph 5" width="1600" height="1067" loading="lazy">
+        </div>
+      </figure>
+      <figure class="photo-tile" data-reveal>
+        <div class="media lb-item" data-caption="Amsterdam · 06">
+          <img src="images/port-07.jpg" alt="Amsterdam — photograph 6" width="1200" height="1500" loading="lazy">
+        </div>
+      </figure>
+      <figure class="photo-tile" data-reveal>
+        <div class="media lb-item" data-caption="Amsterdam · 07">
+          <img src="images/port-09.jpg" alt="Amsterdam — photograph 7" width="1200" height="1500" loading="lazy">
+        </div>
+      </figure>
+      <figure class="photo-tile" data-reveal>
+        <div class="media lb-item" data-caption="Amsterdam · 08">
+          <img src="images/port-11.jpg" alt="Amsterdam — photograph 8" width="1200" height="1500" loading="lazy">
+        </div>
+      </figure>
+      <figure class="photo-tile landscape" data-reveal>
+        <div class="media lb-item" data-caption="Amsterdam · 09">
+          <img src="images/port-06.jpg" alt="Amsterdam — landscape photograph 9" width="1600" height="1067" loading="lazy">
+        </div>
+      </figure>
+      <figure class="photo-tile landscape" data-reveal>
+        <div class="media lb-item" data-caption="Amsterdam · 10">
+          <img src="images/port-08.jpg" alt="Amsterdam — landscape photograph 10" width="1600" height="1067" loading="lazy">
+        </div>
+      </figure>
+      <figure class="photo-tile landscape" data-reveal>
+        <div class="media lb-item" data-caption="Amsterdam · 11">
+          <img src="images/port-10.jpg" alt="Amsterdam — landscape photograph 11" width="1600" height="1067" loading="lazy">
+        </div>
+      </figure>
+      <figure class="photo-tile landscape" data-reveal>
+        <div class="media lb-item" data-caption="Amsterdam · 12">
+          <img src="images/port-12.jpg" alt="Amsterdam — landscape photograph 12" width="1600" height="1067" loading="lazy">
+        </div>
+      </figure>    </div>
+  </div>
+</section>
+
+<section class="section--tight">
+  <div class="container">
+    <div class="detail-nav">
+      <a href="gallery.html" class="link-underline"><span class="arrow" style="transform:rotate(180deg)">→</span> Back to the gallery</a>
+    </div>
+  </div>
+</section>
+</main>
+
+<!-- Lightbox -->
+<div class="lightbox" role="dialog" aria-modal="true" aria-label="Image viewer">
+  <button class="lightbox__close" aria-label="Close viewer"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+  <button class="lightbox__nav lightbox__nav--prev" aria-label="Previous image"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M15 5l-7 7 7 7"/></svg></button>
+  <img src="" alt="Selected photograph, enlarged">
+  <button class="lightbox__nav lightbox__nav--next" aria-label="Next image"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M9 5l7 7-7 7"/></svg></button>
+  <p class="lightbox__cap"></p>
+</div>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer__top">
+      <div class="footer__brand">
+        <img class="brand__logo brand__logo--footer" src="images/logo.png" alt="Aperture Assets" width="1392" height="275">
+      </div>
+      <div class="footer__col"><h4>Explore</h4><ul>
+        <li><a href="destinations.html">Destinations</a></li><li><a href="gallery.html">Gallery</a></li>
+        <li><a href="camera-bag.html">The Camera Bag</a></li><li><a href="about.html">About</a></li>
+      </ul></div>
+    </div>
+    <div class="footer__bottom">
+      <span>© <span id="year">2026</span> Aperture Assets — Captured Honestly.</span>
+      <span>United Kingdom · Worldwide</span>
+    </div>
+  </div>
+</footer>
+
+<script src="js/main.js"></script>
+</body>
+</html>
