@@ -21,9 +21,8 @@ python -m http.server 4173
 ```
 
 ## Deploy
-Currently in review on this branch via GitHub Pages' default `github.io` URL.
-Once approved, this merges to `main` with a `CNAME` file for the
-`apertureassets.co` custom domain, served behind Cloudflare.
+Static site served via GitHub Pages behind Cloudflare, with `apertureassets.co`
+as the custom domain (see the `CNAME` file).
 
 ## Make it yours
 - **Photos** → drop files over the matching filenames in `images/`.
