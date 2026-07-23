@@ -63,14 +63,14 @@
   }
 
   /* ---- Typewriter on scroll (antigravity-style "typed" reveal) ----
-     Eyebrows + headings (slow, deliberate) AND body copy (a quicker stream) type
-     out character-by-character as they scroll into view, with a caret riding the
-     typing position. The home hero keeps a permanent blinking caret after its last
-     character. Full text stays available to assistive tech via an off-screen
-     .sr-only copy (works on <p> too), and the animated per-char spans are
-     aria-hidden. Elements are split up-front so they start blank (no flash) and
-     hold their layout. Reduced-motion shows everything at once, with a static
-     (non-blinking) caret on the hero. */
+     Eyebrows + headings type out character-by-character as they scroll into
+     view, with a caret riding the typing position. Body copy is left static
+     (testers found the typed body text gimmicky). The home hero keeps a
+     permanent blinking caret after its last character. Full text stays
+     available to assistive tech via an off-screen .sr-only copy, and the
+     animated per-char spans are aria-hidden. Elements are split up-front so
+     they start blank (no flash) and hold their layout. Reduced-motion shows
+     everything at once, with a static (non-blinking) caret on the hero. */
   const heroTitle = $('.hero--full .display');
   if (reduce) {
     if (heroTitle) {
@@ -120,7 +120,7 @@
 
     // Split every target up-front (blank until typed → no flash, stable layout).
     const typeMeta = new Map();
-    let pendingType = $$('.kicker, .display, h2, h3, main p').filter(el => el.textContent.trim());
+    let pendingType = $$('.kicker, .display, h2, h3').filter(el => el.textContent.trim());
     pendingType.forEach(el => { el.classList.add('tw-el'); typeMeta.set(el, splitForType(el)); });
 
     const typeEl = (el) => {
@@ -134,12 +134,8 @@
       caret.className = 'tw-caret';                       // ink caret (same colour as the text)
       caret.setAttribute('aria-hidden', 'true');
       wrap.insertBefore(caret, wrap.firstChild);
-      const headingLike = el.matches('.kicker, .display, h2, h3');
       const total = chars.length;
-      // ~2/3 of the previous pace (≈1.5× the per-char delay) — a slower, more
-      // deliberate read that invites the visitor to take the page in.
-      const per = headingLike ? clamp(45, 123, 3150 / total)   // headings: slow & deliberate
-                              : clamp(11, 36, 3300 / total);   // body: measured stream, ~3s cap
+      const per = clamp(45, 123, 3150 / total);            // slow & deliberate
       let i = 0;
       const step = () => {
         if (i < total) {
@@ -217,7 +213,7 @@
           const r = t.media.getBoundingClientRect();
           if (r.bottom < -80 || r.top > vh + 80) continue;
           const p = (r.top + r.height / 2) / vh - 0.5;   // -0.5 (top) … +0.5 (bottom)
-          t.inner.style.setProperty('--py', (p * -24).toFixed(1) + 'px');
+          t.inner.style.setProperty('--py', Math.min(0, p * -24).toFixed(1) + 'px');
         }
       };
       let lastPar = 0;
