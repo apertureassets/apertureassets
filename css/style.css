@@ -436,13 +436,15 @@ body.menu-open .mobile-menu li:nth-child(5) a{ transition-delay:.36s; }
    the image scales up, fades out and reveals the white page behind it. */
 .detail-hero{ height:min(84svh,720px); position:relative; overflow:hidden; isolation:isolate; }
 .detail-hero .media{ position:absolute; inset:0; border-radius:0; }
-/* Below 768px, the 84svh band (tall, narrow) no longer matches the banner's
-   2400x1500 landscape source: object-fit:cover would crop ~65% of its width
-   to fill the height, turning a wide establishing shot into an overzoomed
-   sliver. Switch to an aspect-ratio-driven height so the full frame stays
-   visible instead. */
+/* Below 768px, the <picture> in each essay's markup swaps the wide 2400x1500
+   banner for the destination's own 1200x1500 portrait hero.jpg (the sharp
+   source the banner itself was generated from) via a matching max-width:768px
+   <source>. Match the container to that portrait ratio so it displays full-
+   frame with zero crop, instead of the old flat 84svh band, which was both
+   the wrong shape for a landscape source (see prior fix) and cramped/short
+   as a mobile hero regardless. */
 @media (max-width:768px){
-  .detail-hero{ height:auto; aspect-ratio:2400/1500; }
+  .detail-hero{ height:auto; aspect-ratio:4/5; }
 }
 .detail-hero .media img{
   filter:saturate(.9);
