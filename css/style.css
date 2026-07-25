@@ -436,6 +436,14 @@ body.menu-open .mobile-menu li:nth-child(5) a{ transition-delay:.36s; }
    the image scales up, fades out and reveals the white page behind it. */
 .detail-hero{ height:min(84svh,720px); position:relative; overflow:hidden; isolation:isolate; }
 .detail-hero .media{ position:absolute; inset:0; border-radius:0; }
+/* Below 768px, the 84svh band (tall, narrow) no longer matches the banner's
+   2400x1500 landscape source: object-fit:cover would crop ~65% of its width
+   to fill the height, turning a wide establishing shot into an overzoomed
+   sliver. Switch to an aspect-ratio-driven height so the full frame stays
+   visible instead. */
+@media (max-width:768px){
+  .detail-hero{ height:auto; aspect-ratio:2400/1500; }
+}
 .detail-hero .media img{
   filter:saturate(.9);
   transform:scale(calc(1 + var(--p, 0) * .42)) translateZ(0);
