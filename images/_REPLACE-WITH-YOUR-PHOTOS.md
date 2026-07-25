@@ -24,7 +24,8 @@ has its own hero photo plus 8 photos for its story:
 | Filename pattern | Used on | Suggested size | Shape |
 |---|---|---|---|
 | `<place>-hero.jpg` | That place's tile on `destinations.html` and the homepage | 1200 × 1500 | portrait |
-| `<place>-hero-banner.jpg` | That place's own essay page — the full-bleed banner at the top | 2400 × 1500 | landscape |
+| `<place>-hero-banner.jpg` | That place's own essay page — the full-bleed banner at the top, **desktop only** (above 768px) | 2400 × 1500 | landscape |
+| `<place>-hero-mobile.jpg` | The same banner slot, **mobile only** (768px and below) — swapped in via `<picture>` so the essay hero displays full-frame with no crop on a phone | 1200 × 1500 | portrait |
 | `<place>-story-01.jpg` … `-03.jpg` | First photo row of the essay | 1200 × 1500 | portrait |
 | `<place>-story-04.jpg`, `-05.jpg` | Second photo row of the essay | 1600 × 1067 | landscape |
 | `<place>-story-06.jpg` … `-08.jpg` | Third photo row of the essay | 1200 × 1500 | portrait |
@@ -34,6 +35,12 @@ has its own hero photo plus 8 photos for its story:
 > don't just drop it in at 1200×1500 — pad it out to 2400×1500 first (e.g.
 > center it over a blurred, darkened, edge-stretched copy of itself) so the
 > whole subject stays in frame instead of being cut off top and bottom.
+>
+> `<place>-hero-mobile.jpg` is a separate file from `<place>-hero.jpg` on
+> purpose — it doesn't have to be the same shot as the destination tile, so
+> you're free to pick whichever portrait photo works best as a full-width
+> mobile hero. If you only have one portrait shot for a destination, it's
+> fine to use it for both `-hero.jpg` and `-hero-mobile.jpg`.
 
 `<place>` is one of: `japan`, `new-zealand`, `south-korea`, `amsterdam`,
 `monaco`, `chicago`. Example: Japan's story photos are
