@@ -446,6 +446,15 @@ body.menu-open .mobile-menu li:nth-child(5) a{ transition-delay:.36s; }
 }
 .detail-hero .media img{
   filter:saturate(.9);
+  /* Desktop's short-band height is narrower than the 2400x1500 banner's own
+     ratio, so cover still crops some height even after the mobile aspect-
+     ratio fix above. A center anchor split that crop evenly top/bottom,
+     cutting into the subject (peak/skyline) sitting in the upper part of
+     the frame. Biasing both the static crop and the scroll-zoom's expansion
+     point toward the top keeps the subject intact and takes the trim from
+     the (more expendable) foreground instead. */
+  object-position:center 20%;
+  transform-origin:center 20%;
   transform:scale(calc(1 + var(--p, 0) * .42)) translateZ(0);
   opacity:calc(1 - var(--p, 0) * 1.4);
   transition:none;                 /* track scroll instantly (rAF already smooths) */
