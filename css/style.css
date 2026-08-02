@@ -473,8 +473,31 @@ body.menu-open .mobile-menu li:nth-child(5) a{ transition-delay:.36s; }
 .itin-head{ margin-bottom:clamp(1.4rem,2vw,2rem); }
 .itin-head .kicker{ margin-bottom:.9rem; }
 .itin-head h2{ font-size:clamp(1.7rem,1.3rem + 1.4vw,2.4rem); font-weight:300; letter-spacing:-.01em; }
-.itin-body{ max-width:64ch; margin-bottom:clamp(4rem,7vw,7rem); color:var(--ink-2); }
+.itin-body{ margin-bottom:clamp(1.5rem,3vw,3rem); color:var(--ink-2); }
 .itin-body p + p{ margin-top:1.2rem; }
+.itin-body h3{ margin-bottom:clamp(1rem,1.5vw,1.5rem); }
+/* Follow-up subsection (e.g. an "honest take" or cost summary) sitting after a section's photo row */
+.itin-body--followup{ margin-top:clamp(2.5rem,4vw,4rem); }
+
+/* Compact label/value cost breakdown */
+.spend-list{ max-width:26rem; border-top:1px solid var(--line); }
+.spend-list__row{ display:flex; justify-content:space-between; gap:1rem; padding-block:.7rem; border-bottom:1px solid var(--line); }
+.spend-list__label{ color:var(--ink-2); }
+.spend-list__value{ color:var(--ink); font-weight:500; }
+.spend-list__row--total{ border-top:1px solid var(--line-2); margin-top:-1px; }
+.spend-list__row--total .spend-list__label,
+.spend-list__row--total .spend-list__value{ color:var(--ink); font-weight:600; }
+.itin-body .spend-list + p{ margin-top:1rem; }
+
+/* Trip Cost Summary: centre each receipt so it doesn't sit stranded to the left
+   of the (now full-width) itin-body, especially leading into the centred total below */
+.trip-summary .spend-list{ margin-inline:auto; }
+.trip-summary .spend-list + p{ text-align:center; }
+.trip-summary .itin-body--followup h3{ text-align:center; }
+
+/* Standalone capstone stat (e.g. a trip's grand total cost) */
+.trip-total{ text-align:center; padding-block:clamp(1rem,2vw,2rem); }
+.trip-total .stat__num{ color:var(--ink); }
 
 /* Photo row sits inside its own .container--wide so tiles span further across
    the desktop viewport than the body copy above them. Small gap between tiles
