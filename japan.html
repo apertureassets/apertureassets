@@ -12,7 +12,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200..700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/style.css?v=20">
+<link rel="stylesheet" href="css/style.css?v=21">
 </head>
 <body>
 
@@ -52,6 +52,8 @@
 <!-- Sticky sub-nav: sticks under the main header once the hero scrolls past -->
 <nav class="subnav" aria-label="Jump to city">
   <div class="container subnav__inner">
+    <a href="#before-you-fly" class="subnav__link" data-city="before-you-fly">Before You Fly</a>
+    <a href="#on-the-ground-essentials" class="subnav__link" data-city="on-the-ground-essentials">On The Ground Essentials</a>
     <a href="#tokyo" class="subnav__link" data-city="tokyo">Tokyo</a>
     <a href="#kyoto" class="subnav__link" data-city="kyoto">Kyoto</a>
     <a href="#hiroshima" class="subnav__link" data-city="hiroshima">Hiroshima</a>
@@ -76,7 +78,7 @@
 </section>
 
 <!-- Before You Fly -->
-<section class="section--tight" style="padding-top:0">
+<section class="section--tight" id="before-you-fly" data-city="before-you-fly" style="padding-top:0">
   <div class="container">
     <header class="itin-head" data-reveal>
       <p class="kicker">Travel Notes</p>
@@ -92,7 +94,7 @@
 </section>
 
 <!-- On The Ground Essentials -->
-<section class="section--tight" style="padding-top:0">
+<section class="section--tight" id="on-the-ground-essentials" data-city="on-the-ground-essentials" style="padding-top:0">
   <div class="container">
     <header class="itin-head" data-reveal>
       <p class="kicker">Travel Notes</p>
