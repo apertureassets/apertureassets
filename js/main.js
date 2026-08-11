@@ -148,8 +148,13 @@
     };
 
     // Split every target up-front (blank until typed → no flash, stable layout).
+    // Destination essays and the camera bag page carry many stacked H2/H3s
+    // (e.g. one per itinerary city) — typing each one individually reads as
+    // glitchy on a fast scroll, so those pages restrict the effect to the
+    // page's own H1/.display title via the "type-h1-only" body class.
+    const typeSelector = document.body.classList.contains('type-h1-only') ? '.display' : '.kicker, .display, h2, h3';
     const typeMeta = new Map();
-    let pendingType = $$('.kicker, .display, h2, h3').filter(el => el.textContent.trim());
+    let pendingType = $$(typeSelector).filter(el => el.textContent.trim());
     pendingType.forEach(el => { el.classList.add('tw-el'); typeMeta.set(el, splitForType(el)); });
 
     const typeEl = (el) => {
