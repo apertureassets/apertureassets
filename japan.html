@@ -12,7 +12,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200..700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/style.css?v=18">
+<link rel="stylesheet" href="css/style.css?v=19">
 </head>
 <body>
 
@@ -48,6 +48,16 @@
 <section class="detail-hero" data-reveal-img>
   <div class="media"><picture><source media="(max-width:768px)" srcset="images/japan-hero-mobile.jpg"><img src="images/japan-hero-banner.jpg" alt="A quiet Japanese scene under soft light" fetchpriority="high" width="2400" height="1500"></picture></div>
 </section>
+
+<!-- Sticky sub-nav: sticks under the main header once the hero scrolls past -->
+<nav class="subnav" aria-label="Jump to city">
+  <div class="container subnav__inner">
+    <a href="#tokyo" class="subnav__link" data-city="tokyo">Tokyo</a>
+    <a href="#kyoto" class="subnav__link" data-city="kyoto">Kyoto</a>
+    <a href="#hiroshima" class="subnav__link" data-city="hiroshima">Hiroshima</a>
+    <a href="#osaka" class="subnav__link" data-city="osaka">Osaka</a>
+  </div>
+</nav>
 
 <!-- Intro -->
 <section class="section">
@@ -111,7 +121,7 @@
 </section>
 
 <!-- ============ ITINERARY 1 ============ -->
-<section class="section" style="padding-top:0">
+<section class="section" id="tokyo" data-city="tokyo" style="padding-top:0">
   <div class="container">
     <header class="itin-head" data-reveal>
       <p class="kicker">Itinerary</p>
@@ -167,7 +177,7 @@
 </section>
 
 <!-- ============ ITINERARY 2 ============ -->
-<section class="section bg-2" style="padding-top:0">
+<section class="section bg-2" id="kyoto" data-city="kyoto" style="padding-top:0">
   <div class="container">
     <header class="itin-head" data-reveal>
       <p class="kicker">Itinerary</p>
@@ -217,7 +227,7 @@
 </section>
 
 <!-- ============ ITINERARY 3 ============ -->
-<section class="section" style="padding-top:0">
+<section class="section" id="hiroshima" data-city="hiroshima" style="padding-top:0">
   <div class="container">
     <header class="itin-head" data-reveal>
       <p class="kicker">Itinerary</p>
@@ -270,7 +280,7 @@
 </section>
 
 <!-- ============ ITINERARY 4 ============ -->
-<section class="section bg-2" style="padding-top:0">
+<section class="section bg-2" id="osaka" data-city="osaka" style="padding-top:0">
   <div class="container">
     <header class="itin-head" data-reveal>
       <p class="kicker">Itinerary</p>
@@ -317,7 +327,7 @@
 </section>
 
 <!-- ============ ITINERARY 5 ============ -->
-<section class="section" style="padding-top:0">
+<section class="section" data-city="tokyo" style="padding-top:0">
   <div class="container">
     <header class="itin-head" data-reveal>
       <p class="kicker">Itinerary</p>
@@ -510,6 +520,6 @@
   </div>
 </footer>
 
-<script src="js/main.js"></script>
+<script src="js/main.js?v=1"></script>
 </body>
 </html>

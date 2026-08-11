@@ -14,9 +14,38 @@
   /* ---- Header scroll state ---- */
   const header = $('.header');
   if (header) {
+    const setHeaderHeight = () => document.documentElement.style.setProperty('--header-h', header.offsetHeight + 'px');
     const onScroll = () => header.classList.toggle('scrolled', window.scrollY > 40);
     onScroll();
+    setHeaderHeight();
     window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', setHeaderHeight, { passive: true });
+    // header padding animates on the scrolled-state toggle, which changes its height
+    header.addEventListener('transitionend', setHeaderHeight);
+  }
+
+  /* ---- Sticky sub-nav (destination pages: jump-to-city bar) ---- */
+  const subnav = $('.subnav');
+  if (subnav) {
+    const subnavLinks = $$('.subnav__link', subnav);
+    const citySections = $$('section[data-city]');
+    const setStickyOffset = () => {
+      const offset = (header ? header.offsetHeight : 0) + subnav.offsetHeight;
+      document.documentElement.style.setProperty('--sticky-offset', offset + 'px');
+    };
+    setStickyOffset();
+    window.addEventListener('resize', setStickyOffset, { passive: true });
+    window.addEventListener('load', setStickyOffset);
+
+    const setActiveCity = (city) => {
+      subnavLinks.forEach(l => l.classList.toggle('is-active', l.dataset.city === city));
+    };
+    if (citySections.length && 'IntersectionObserver' in window) {
+      const io = new IntersectionObserver(entries => {
+        entries.forEach(entry => { if (entry.isIntersecting) setActiveCity(entry.target.dataset.city); });
+      }, { rootMargin: '-45% 0px -50% 0px', threshold: 0 });
+      citySections.forEach(s => io.observe(s));
+    }
   }
 
   /* ---- Mobile menu ---- */
