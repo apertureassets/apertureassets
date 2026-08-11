@@ -12,7 +12,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200..700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/style.css?v=9">
+<link rel="stylesheet" href="css/style.css?v=20">
 </head>
 <body>
 
@@ -49,6 +49,18 @@
   <div class="media"><picture><source media="(max-width:768px)" srcset="images/amsterdam-hero-mobile.jpg"><img src="images/amsterdam-hero-banner.jpg" alt="A quiet Amsterdam scene under soft light" fetchpriority="high" width="2400" height="1500"></picture></div>
 </section>
 
+<!-- Sticky sub-nav: sticks under the main header once the hero scrolls past.
+     TODO: labels are placeholder ("Place 1/2/3") until this essay's real
+     itinerary content and place names are written -- update alongside the
+     h2 headings below. -->
+<nav class="subnav" aria-label="Jump to place">
+  <div class="container subnav__inner">
+    <a href="#place-1" class="subnav__link" data-city="place-1">Place 1</a>
+    <a href="#place-2" class="subnav__link" data-city="place-2">Place 2</a>
+    <a href="#place-3" class="subnav__link" data-city="place-3">Place 3</a>
+  </div>
+</nav>
+
 <!-- Intro -->
 <section class="section">
   <div class="container">
@@ -67,7 +79,7 @@
 </section>
 
 <!-- ============ ITINERARY 1 ============ -->
-<section class="section" style="padding-top:0">
+<section class="section" id="place-1" data-city="place-1" style="padding-top:0">
   <div class="container">
     <header class="itin-head" data-reveal>
       <p class="kicker">Itinerary</p>
@@ -100,7 +112,7 @@
 </section>
 
 <!-- ============ ITINERARY 2 ============ -->
-<section class="section bg-2" style="padding-top:0">
+<section class="section bg-2" id="place-2" data-city="place-2" style="padding-top:0">
   <div class="container">
     <header class="itin-head" data-reveal>
       <p class="kicker">Itinerary</p>
@@ -128,7 +140,7 @@
 </section>
 
 <!-- ============ ITINERARY 3 ============ -->
-<section class="section" style="padding-top:0">
+<section class="section" id="place-3" data-city="place-3" style="padding-top:0">
   <div class="container">
     <header class="itin-head" data-reveal>
       <p class="kicker">Itinerary</p>
