@@ -184,6 +184,9 @@ section[data-city]{ scroll-margin-top:var(--sticky-offset,150px); }
   padding-block:1rem; overflow-x:auto; scrollbar-width:none; -ms-overflow-style:none;
 }
 .subnav__inner::-webkit-scrollbar{ display:none; }
+@media (min-width:769px){
+  .subnav__inner{ justify-content:center; }
+}
 .subnav__link{
   flex:0 0 auto; position:relative; padding-block:.6em;
   font-size:.72rem; font-weight:500; letter-spacing:.28em; text-transform:uppercase;
