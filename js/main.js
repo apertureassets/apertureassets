@@ -39,6 +39,14 @@
 
     const setActiveCity = (city) => {
       subnavLinks.forEach(l => l.classList.toggle('is-active', l.dataset.city === city));
+      // Keep the active tab in view as the page scrolls — without this, a tab
+      // further along the bar than fits on screen (especially on mobile,
+      // where only 2-3 tabs are visible at once) goes active off-screen with
+      // no visible indication of where you are.
+      const activeLink = subnavLinks.find(l => l.dataset.city === city);
+      if (activeLink) {
+        activeLink.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', inline: 'center', block: 'nearest' });
+      }
     };
     if (citySections.length && 'IntersectionObserver' in window) {
       const io = new IntersectionObserver(entries => {

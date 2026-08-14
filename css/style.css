@@ -179,14 +179,17 @@ section[data-city]{ scroll-margin-top:var(--sticky-offset,150px); }
   position:sticky; top:var(--header-h,96px); z-index:calc(var(--z-nav) - 1);
   background:var(--bg); border-bottom:1px solid var(--line);
 }
+/* Left-justified at every width (not centred) — the bar can hold more tabs
+   than fit on screen (all 6 destination essays' worth on a phone), and
+   centring an overflowing flex row just clips both edges unpredictably.
+   JS (main.js setActiveCity) scrolls the active tab into view as the page
+   scrolls past each section, so the current position stays visible even
+   though the bar itself starts left-aligned. */
 .subnav__inner{
   display:flex; align-items:center; gap:clamp(1.4rem,3vw,2.4rem);
   padding-block:1rem; overflow-x:auto; scrollbar-width:none; -ms-overflow-style:none;
 }
 .subnav__inner::-webkit-scrollbar{ display:none; }
-@media (min-width:769px){
-  .subnav__inner{ justify-content:center; }
-}
 .subnav__link{
   flex:0 0 auto; position:relative; padding-block:.6em;
   font-size:.72rem; font-weight:500; letter-spacing:.28em; text-transform:uppercase;
