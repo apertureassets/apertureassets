@@ -243,44 +243,33 @@ body.menu-open .mobile-menu li:nth-child(5) a{ transition-delay:.36s; }
 [data-reveal-img].in{ clip-path:inset(0 0 0 0); }
 .stagger > *{ transition-delay:calc(var(--i,0) * 90ms); }
 
-/* ---------- Photo tile / destination-card entrance: scroll-scrubbed fade ----------
+/* ---------- Photo tile / destination-card entrance: scroll-scrubbed colour ----------
    Photo tiles, destination cards and photo-strips skip the threshold-triggered
-   [data-reveal] fade above — their entrance is continuously tied to scroll
-   position instead, the same mechanism as the hero's --p zoom/fade (JS sets
-   --rp every rAF while scrolling; no transition, the scroll itself is the
-   animation). The tile shell — shadow, hover-lift transition — is left alone
-   and always visible; only the photo inside, .media, fades up and settles
-   from a slight scale as it's scrolled into place. --rp is set on the tile
-   root and reaches .media via custom-property inheritance. Once a tile
-   reaches full reveal it holds; it does not fade back out on further scroll,
-   so photos don't vanish while still being read about. */
+   [data-reveal] fade above — the tile shell is always visible/in place (no
+   fade, no scale-settle). Only colour rides the scroll: almost monotone at
+   rest, reaching full saturation exactly as the tile finishes settling into
+   place, continuously tied to scroll position rather than a one-shot trigger
+   (the same --p mechanism the hero's zoom/fade uses — JS sets --rp every rAF
+   while scrolling). Applied universally (not gated behind a hover/touch media
+   query) so mobile and desktop share one identical entrance instead of the
+   old split where touch defaulted to full colour and desktop needed a
+   pointer hover. --rp is set on the tile root and reaches .media img via
+   custom-property inheritance; deliberately higher-specificity than the
+   desaturate/hover-bloom rules below (.media img), which still govern every
+   OTHER image on the site (galleries without the tile-reveal system,
+   camera-bag, about, etc). Once a tile reaches full saturation it holds; it
+   does not desaturate again on further scroll. will-change:filter hints the
+   browser to keep this on its own compositing layer, since filter is the one
+   property still updating on every scroll frame. */
 .js .photo-tile[data-reveal],
 .js .dest-card[data-reveal],
 .js .photo-strip[data-reveal]{ opacity:1; transform:none; filter:none; }
-.js .photo-tile .media,
-.js .dest-card .media,
-.js .photo-strip__item .media{
-  opacity:var(--rp,0);
-  transform:scale(calc(.97 + var(--rp,0) * .03));
-  transition:none;
-  will-change:opacity,transform;
-}
-/* Colour rides the same --rp: almost monotone at rest, reaching full
-   saturation exactly as the tile finishes settling into place. Applied
-   universally (not gated behind a hover/touch media query) so mobile and
-   desktop share one identical entrance instead of the old split where
-   touch defaulted to full colour and desktop needed a pointer hover —
-   this is deliberately higher-specificity than the desaturate/hover-bloom
-   rules below (.media img), which still govern every OTHER image on the
-   site (galleries without the tile-reveal system, camera-bag, about, etc).
-   Filter tracks scroll instantly (no transition) like the fade above;
-   the hover-zoom transform below is untouched and still eases in on a
-   desktop pointer hover once a tile has already reached full colour. */
 .js .photo-tile .media img,
 .js .dest-card .media img,
 .js .photo-strip__item .media img{
   filter:saturate(calc(.12 + var(--rp,0) * .88)) contrast(1.01);
   transition:transform 1.2s var(--ease-out);
+  will-change:filter;
 }
 
 /* ---------- Typewriter ("typed on scroll" headings, antigravity-style) ----------

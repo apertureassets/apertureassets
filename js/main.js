@@ -11,6 +11,75 @@
   /* JS is active → allow reveal elements to start hidden (no-JS shows everything) */
   document.documentElement.classList.add('js');
 
+  /* ---- Smooth (momentum) wheel scroll — desktop mouse only ----
+     A physical mouse wheel moves the page in hard, discrete notches; touch
+     and trackpads already glide because the OS gives them continuous,
+     inertial input. This closes that gap on desktop without touching how
+     scrolling actually works: real window.scrollY stays the single source
+     of truth (nothing else in this file — the hero's --p, tiles' --rp, the
+     header's scrolled state, the sub-nav scroll-spy — needs to know this
+     exists), we just ease the actual scroll position toward a wheel-set
+     target each frame instead of snapping straight to it.
+     Deliberately scoped to fine-pointer/hover devices only (matchMedia
+     below) — touch already has native momentum and fighting it tends to
+     make mobile scrolling worse, not better, so phones/tablets are left
+     entirely alone here. */
+  if (!reduce && window.matchMedia('(hover:hover) and (pointer:fine)').matches) {
+    const EASE = 0.075;             // per-frame catch-up toward target (higher = snappier)
+    const maxScroll = () => Math.max(0, document.documentElement.scrollHeight - window.innerHeight);
+    let target = window.scrollY;
+    let raf = 0;
+
+    // Only matches elements with their own VERTICAL overflow (e.g. a future
+    // scrollable modal) — the sub-nav's horizontal strip uses overflow-x
+    // and never matches this, so it's untouched without needing a special case.
+    const insideScrollable = (el) => {
+      for (let n = el; n instanceof Element && n !== document.body; n = n.parentElement) {
+        const cs = getComputedStyle(n);
+        if (/(auto|scroll)/.test(cs.overflowY) && n.scrollHeight > n.clientHeight) return true;
+      }
+      return false;
+    };
+
+    // { behavior:'auto' } is explicit on purpose: the page sets CSS
+    // scroll-behavior:smooth globally (for sub-nav anchor jumps), and if
+    // that were left to apply here too, the browser's own smooth-scroll
+    // would fight this rAF-driven easing — two animation systems racing
+    // each other every frame, which reads as exactly the stutter this is
+    // supposed to fix. Forcing 'auto' makes each call land instantly and
+    // leaves all the actual easing to the lerp below.
+    const scrollNow = (y) => window.scrollTo({ top: y, left: 0, behavior: 'auto' });
+
+    const tick = () => {
+      const cur = window.scrollY;
+      const next = cur + (target - cur) * EASE;
+      if (Math.abs(target - next) < 0.5) {
+        scrollNow(target);
+        raf = 0;
+        return;
+      }
+      scrollNow(next);
+      raf = requestAnimationFrame(tick);
+    };
+
+    window.addEventListener('wheel', (e) => {
+      if (e.ctrlKey || e.metaKey) return;                 // pinch-zoom / cmd-scroll — leave native
+      if (insideScrollable(e.target)) return;              // let nested scroll areas behave natively
+      e.preventDefault();
+      // Re-anchor to the real scroll position each time so any scroll that
+      // happened outside our control (anchor jump, scrollbar drag, keyboard)
+      // is never fought or snapped away from.
+      const base = raf ? target : window.scrollY;
+      let delta = e.deltaY;
+      if (e.deltaMode === 1) delta *= 18;                  // line mode → approx px
+      else if (e.deltaMode === 2) delta *= window.innerHeight; // page mode
+      target = Math.max(0, Math.min(maxScroll(), base + delta));
+      if (!raf) raf = requestAnimationFrame(tick);
+    }, { passive: false });
+
+    window.addEventListener('resize', () => { target = Math.min(target, maxScroll()); }, { passive: true });
+  }
+
   /* ---- Header scroll state ---- */
   const header = $('.header');
   if (header) {
@@ -105,12 +174,13 @@
     setTimeout(() => textRevealEls.forEach(el => el.classList.add('in')), 4000);
   }
 
-  /* ---- Photo tile / destination-card entrance: scroll-scrubbed fade ----
-     Continuously tied to scroll position rather than a one-shot trigger —
+  /* ---- Photo tile / destination-card entrance: scroll-scrubbed colour ----
+     Drives the desaturate-to-colour bloom on .media img (see style.css) —
+     continuously tied to scroll position rather than a one-shot trigger,
      the same --p-style mechanism as the hero's scroll-driven zoom/fade
-     below. --rp is set on each tile root and reaches its inner .media via
-     CSS custom-property inheritance (see style.css). Once a tile reaches
-     full reveal it holds — it does not fade back out on further scroll. */
+     below. --rp is set on each tile root and reaches its inner .media img
+     via CSS custom-property inheritance. Once a tile reaches full colour
+     it holds — it does not desaturate again on further scroll. */
   if (mediaRevealEls.length) {
     if (reduce) {
       mediaRevealEls.forEach(el => el.style.setProperty('--rp', '1'));
@@ -135,8 +205,11 @@
       window.addEventListener('scroll', onScroll, { passive: true });
       window.addEventListener('resize', onScroll, { passive: true });
       window.addEventListener('load', update);
-      // absolute failsafe — never leave tiles hidden
-      setTimeout(() => mediaRevealEls.forEach(el => el.style.setProperty('--rp', '1')), 4000);
+      // No timed failsafe here (unlike the text reveal above): update() is
+      // geometry-driven and re-runs on every scroll/resize/load, so a tile
+      // is always correctly revealed once actually scrolled near — nothing
+      // to fail. A timed "reveal everything" would defeat the whole point
+      // of a scroll-scrubbed entrance for any tile not yet scrolled to.
     }
   }
 
