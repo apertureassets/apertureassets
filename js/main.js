@@ -70,16 +70,22 @@
     document.addEventListener('keydown', e => { if (e.key === 'Escape') toggle(false); });
   }
 
-  /* ---- Reveal on scroll (scroll + rAF; robust across browsers/preview) ---- */
-  const revealEls = $$('[data-reveal], [data-reveal-img]');
+  /* ---- Reveal on scroll (scroll + rAF; robust across browsers/preview) ----
+     Photo tiles / destination cards / photo-strips are split out below —
+     they get a continuous scroll-scrubbed fade instead of this threshold-
+     triggered one-shot fade. Everything else (headings, body copy, the
+     hero's [data-reveal-img]) keeps this original behaviour. */
+  const allRevealEls = $$('[data-reveal], [data-reveal-img]');
+  const mediaRevealEls = allRevealEls.filter(el => el.matches('.photo-tile, .dest-card, .photo-strip'));
+  const textRevealEls = allRevealEls.filter(el => !mediaRevealEls.includes(el));
   // stagger index for grouped children
   $$('.stagger').forEach(group =>
     $$(':scope > *', group).forEach((child, i) => child.style.setProperty('--i', i))
   );
   if (reduce) {
-    revealEls.forEach(el => el.classList.add('in'));
+    textRevealEls.forEach(el => el.classList.add('in'));
   } else {
-    let pending = [...revealEls];
+    let pending = [...textRevealEls];
     let ticking = false;
     const reveal = () => {
       const vh = window.innerHeight;
@@ -96,7 +102,42 @@
     window.addEventListener('resize', onScroll, { passive: true });
     window.addEventListener('load', reveal);    // catch late layout shifts (fonts/images)
     // absolute failsafe — never leave content hidden
-    setTimeout(() => revealEls.forEach(el => el.classList.add('in')), 4000);
+    setTimeout(() => textRevealEls.forEach(el => el.classList.add('in')), 4000);
+  }
+
+  /* ---- Photo tile / destination-card entrance: scroll-scrubbed fade ----
+     Continuously tied to scroll position rather than a one-shot trigger —
+     the same --p-style mechanism as the hero's scroll-driven zoom/fade
+     below. --rp is set on each tile root and reaches its inner .media via
+     CSS custom-property inheritance (see style.css). Once a tile reaches
+     full reveal it holds — it does not fade back out on further scroll. */
+  if (mediaRevealEls.length) {
+    if (reduce) {
+      mediaRevealEls.forEach(el => el.style.setProperty('--rp', '1'));
+    } else {
+      let ticking = false;
+      const update = () => {
+        const vh = window.innerHeight;
+        const bandTop = vh * 0.92;    // --rp 0 when a tile's top is here
+        const bandBottom = vh * 0.55; // --rp 1 when a tile's top reaches here
+        mediaRevealEls.forEach(el => {
+          const r = el.getBoundingClientRect();
+          if (r.bottom < -100 || r.top > vh + 100) return; // skip far offscreen
+          const raw = (bandTop - r.top) / (bandTop - bandBottom);
+          const rp = Math.max(0, Math.min(1, raw));
+          const prev = parseFloat(el.style.getPropertyValue('--rp') || '0');
+          if (rp > prev) el.style.setProperty('--rp', rp.toFixed(3));
+        });
+        ticking = false;
+      };
+      const onScroll = () => { if (!ticking) { requestAnimationFrame(update); ticking = true; } };
+      update();
+      window.addEventListener('scroll', onScroll, { passive: true });
+      window.addEventListener('resize', onScroll, { passive: true });
+      window.addEventListener('load', update);
+      // absolute failsafe — never leave tiles hidden
+      setTimeout(() => mediaRevealEls.forEach(el => el.style.setProperty('--rp', '1')), 4000);
+    }
   }
 
   /* ---- Typewriter on scroll (antigravity-style "typed" reveal) ----
@@ -263,103 +304,6 @@
       updatePar();
       window.addEventListener('scroll', onParScroll, { passive: true });
       window.addEventListener('resize', onParScroll, { passive: true });
-    }
-  }
-
-  /* ---- 3D pointer tilt on tiles (lusion-style featured-work effect) ----
-     The whole tile rotates in 3D toward the cursor and lifts — perspective +
-     rotateX/rotateY + lift + scale composited into one inline transform. A quick
-     transition tracks the pointer; on leave the tile eases home via the card's own
-     spring transition. Desktop pointer only; skipped under reduced motion. */
-  if (!reduce && window.matchMedia('(hover:hover)').matches) {
-    const MAX = 12;                                       // max tilt in degrees
-    $$('.dest-card, .photo-tile').forEach(tile => {
-      const isCard = tile.classList.contains('dest-card');
-      const lift = isCard ? -12 : -10;
-      const scale = isCard ? 1.028 : 1.025;
-      const frame = tile.querySelector('.media') || tile;
-      tile.addEventListener('mouseenter', () => { tile.style.transition = 'transform .14s ease-out'; });
-      tile.addEventListener('mousemove', (e) => {
-        const r = frame.getBoundingClientRect();
-        const nx = Math.max(0, Math.min(1, (e.clientX - r.left) / r.width)) * 2 - 1;   // -1 … 1
-        const ny = Math.max(0, Math.min(1, (e.clientY - r.top) / r.height)) * 2 - 1;
-        tile.style.transform =
-          `perspective(1000px) rotateX(${(-ny * MAX).toFixed(2)}deg) rotateY(${(nx * MAX).toFixed(2)}deg) ` +
-          `translateY(${lift}px) scale(${scale})`;
-      });
-      tile.addEventListener('mouseleave', () => {
-        tile.style.transition = '';                       // revert to the CSS spring → soft settle
-        tile.style.transform = '';
-      });
-    });
-  }
-
-  /* ---- Idle 3D drift + gyroscope tilt on tiles ----
-     Every tile frame gently drifts in 3D on its own (a slow "hint of 3D" even when
-     nothing is touched), and on touch devices the phone's orientation is ADDED to
-     that drift so tiles tilt as it moves. Both feed per-tile --gx/--gy that the
-     .tilt-live CSS turns into a perspective rotation; the total is clamped to 12°,
-     matching the desktop pointer tilt. iOS 13+ needs a permission tap for the gyro
-     part (small button); Android / older iOS start at once; the drift itself needs
-     no permission. Gyro needs a secure context (https / localhost). Driven by
-     setInterval (not rAF) so it keeps ticking when the tab is merely backgrounded,
-     and it pauses when the tab is actually hidden. */
-  if (!reduce) {
-    const tiles = $$('.dest-card .media, .photo-tile .media').map(m => ({ m, ph: Math.random() * 6.283 }));
-    if (tiles.length) {
-      const DRIFT = 2.4, CLAMP = 12;
-      const clampT = v => Math.max(-CLAMP, Math.min(CLAMP, v));
-      let gyroX = 0, gyroY = 0;
-
-      // Gyroscope (touch only) adds device orientation on top of the drift.
-      if (window.matchMedia('(hover:none)').matches && 'DeviceOrientationEvent' in window) {
-        const GAIN = 0.7;
-        let baseB = null, baseG = null, cx = 0, cy = 0;
-        const onOrient = (e) => {
-          if (e.beta == null || e.gamma == null) return;
-          if (baseB === null) { baseB = e.beta; baseG = e.gamma; }   // neutral = first hold
-          cx += (((e.beta  - baseB) * GAIN) - cx) * 0.2;             // smoothed
-          cy += (((e.gamma - baseG) * GAIN) - cy) * 0.2;
-          gyroX = cx; gyroY = cy;
-        };
-        const startGyro = () => window.addEventListener('deviceorientation', onOrient, { passive: true });
-        if (typeof DeviceOrientationEvent.requestPermission !== 'function') {
-          startGyro();                                            // Android / older iOS
-        } else {
-          const btn = document.createElement('button');           // iOS 13+: needs a user gesture
-          btn.type = 'button';
-          btn.className = 'motion-btn';
-          btn.textContent = 'Enable 3D tilt';
-          document.body.appendChild(btn);
-          setTimeout(() => btn.classList.add('show'), 40);
-          const dismiss = () => { btn.classList.remove('show'); setTimeout(() => btn.remove(), 500); };
-          btn.addEventListener('click', async () => {
-            try { if (await DeviceOrientationEvent.requestPermission() === 'granted') startGyro(); }
-            catch (_) { /* denied/unsupported — drift + scroll-magnify remain */ }
-            dismiss();
-          });
-          setTimeout(dismiss, 9000);                              // auto-hide if ignored
-        }
-      }
-
-      // Drift + compose loop: only touches on-screen tiles; pauses when tab hidden.
-      document.documentElement.classList.add('tilt-live');
-      let timer = null;
-      const tick = () => {
-        const vh = window.innerHeight, now = Date.now() * 0.001;
-        for (const t of tiles) {
-          const r = t.m.getBoundingClientRect();
-          if (r.bottom < 0 || r.top > vh) continue;
-          const dx = Math.sin(now * 0.6 + t.ph) * DRIFT;          // slow, phase-offset per tile
-          const dy = Math.cos(now * 0.45 + t.ph * 1.3) * DRIFT;
-          t.m.style.setProperty('--gx', clampT(dx + gyroX).toFixed(2) + 'deg');
-          t.m.style.setProperty('--gy', clampT(dy + gyroY).toFixed(2) + 'deg');
-        }
-      };
-      const start = () => { if (!timer) { tick(); timer = setInterval(tick, 33); } };  // ~30fps
-      const stop = () => { if (timer) { clearInterval(timer); timer = null; } };
-      start();
-      document.addEventListener('visibilitychange', () => { document.hidden ? stop() : start(); });
     }
   }
 

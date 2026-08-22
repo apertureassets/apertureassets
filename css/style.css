@@ -243,6 +243,46 @@ body.menu-open .mobile-menu li:nth-child(5) a{ transition-delay:.36s; }
 [data-reveal-img].in{ clip-path:inset(0 0 0 0); }
 .stagger > *{ transition-delay:calc(var(--i,0) * 90ms); }
 
+/* ---------- Photo tile / destination-card entrance: scroll-scrubbed fade ----------
+   Photo tiles, destination cards and photo-strips skip the threshold-triggered
+   [data-reveal] fade above — their entrance is continuously tied to scroll
+   position instead, the same mechanism as the hero's --p zoom/fade (JS sets
+   --rp every rAF while scrolling; no transition, the scroll itself is the
+   animation). The tile shell — shadow, hover-lift transition — is left alone
+   and always visible; only the photo inside, .media, fades up and settles
+   from a slight scale as it's scrolled into place. --rp is set on the tile
+   root and reaches .media via custom-property inheritance. Once a tile
+   reaches full reveal it holds; it does not fade back out on further scroll,
+   so photos don't vanish while still being read about. */
+.js .photo-tile[data-reveal],
+.js .dest-card[data-reveal],
+.js .photo-strip[data-reveal]{ opacity:1; transform:none; filter:none; }
+.js .photo-tile .media,
+.js .dest-card .media,
+.js .photo-strip__item .media{
+  opacity:var(--rp,0);
+  transform:scale(calc(.97 + var(--rp,0) * .03));
+  transition:none;
+  will-change:opacity,transform;
+}
+/* Colour rides the same --rp: almost monotone at rest, reaching full
+   saturation exactly as the tile finishes settling into place. Applied
+   universally (not gated behind a hover/touch media query) so mobile and
+   desktop share one identical entrance instead of the old split where
+   touch defaulted to full colour and desktop needed a pointer hover —
+   this is deliberately higher-specificity than the desaturate/hover-bloom
+   rules below (.media img), which still govern every OTHER image on the
+   site (galleries without the tile-reveal system, camera-bag, about, etc).
+   Filter tracks scroll instantly (no transition) like the fade above;
+   the hover-zoom transform below is untouched and still eases in on a
+   desktop pointer hover once a tile has already reached full colour. */
+.js .photo-tile .media img,
+.js .dest-card .media img,
+.js .photo-strip__item .media img{
+  filter:saturate(calc(.12 + var(--rp,0) * .88)) contrast(1.01);
+  transition:transform 1.2s var(--ease-out);
+}
+
 /* ---------- Typewriter ("typed on scroll" headings, antigravity-style) ----------
    JS (main.js) splits eligible headings/eyebrows into per-character spans and
    reveals them in sequence when the element scrolls into view, with a caret at
@@ -289,31 +329,6 @@ body.menu-open .mobile-menu li:nth-child(5) a{ transition-delay:.36s; }
 @media (prefers-reduced-motion: reduce){
   .dest-card .media__inner{ position:static; top:0; height:auto; transform:none; }
 }
-
-/* ---------- Idle drift + gyroscope tilt (all tiles) ----------
-   JS sets per-tile --gx/--gy (a slow idle drift, plus device orientation on touch)
-   and adds .tilt-live, so each tile frame gets a live perspective rotation. No CSS
-   transition — the JS loop drives the motion directly. */
-.tilt-live .dest-card .media,
-.tilt-live .photo-tile .media{
-  transform:perspective(1000px) rotateX(var(--gx,0deg)) rotateY(var(--gy,0deg));
-}
-@media (prefers-reduced-motion: reduce){
-  .tilt-live .dest-card .media,
-  .tilt-live .photo-tile .media{ transform:none; }
-}
-/* One-time iOS permission prompt (shown only where DeviceOrientation needs a tap). */
-.motion-btn{
-  position:fixed; left:50%; bottom:calc(1.1rem + env(safe-area-inset-bottom, 0px));
-  z-index:150; transform:translate(-50%, 12px); opacity:0;
-  display:inline-flex; align-items:center; gap:.55em;
-  padding:.85em 1.35em; border-radius:100px; min-height:44px;
-  background:var(--ink); color:var(--bg);
-  font-size:.72rem; font-weight:500; letter-spacing:.16em; text-transform:uppercase;
-  box-shadow:0 12px 30px -10px rgba(16,20,38,.5);
-  transition:opacity .5s var(--ease-out), transform .5s var(--ease-out);
-}
-.motion-btn.show{ opacity:1; transform:translate(-50%, 0); }
 
 /* ---------- Hero (light, airy, type-led) ---------- */
 .hero{ padding-top:clamp(8rem,14vh,11rem); }
@@ -415,7 +430,7 @@ body.menu-open .mobile-menu li:nth-child(5) a{ transition-delay:.36s; }
   display:block; border-radius:var(--radius);
   will-change:transform;
   transform:translateZ(0);
-  box-shadow:0 14px 34px -16px rgba(18,22,40,.22), 0 5px 12px -6px rgba(18,22,40,.12);
+  box-shadow:0 18px 42px -14px rgba(18,22,40,.28), 0 7px 16px -5px rgba(18,22,40,.16);
 }
 /* Springy transform (declared with .js so it wins over the [data-reveal] transition):
    gives both the scroll-in and the hover-lift a soft lusion-style settle. */
@@ -434,7 +449,8 @@ body.menu-open .mobile-menu li:nth-child(5) a{ transition-delay:.36s; }
    (hover:none) ensures desktop tiles are not exaggerated when centered in viewport. */
 @media (hover:none){
   .dest-card.in-focus{ transform:translateY(-18px) scale(1.055); box-shadow:0 50px 80px -25px rgba(0,0,0,.3), 0 22px 38px -18px rgba(0,0,0,.18); }
-  .dest-card.in-focus .media img{ filter:saturate(1) contrast(1); }
+  /* Colour here now comes from the scroll-scrubbed --rp rule above, not
+     .in-focus — left unset so it can't fight that rule's higher specificity. */
   .dest-card.in-focus .dest-card__body{ border-color:var(--ink); }
 }
 /* Desktop pointer hover — gentler lusion-style lift + zoom, cool soft shadow. */
@@ -558,14 +574,15 @@ body.menu-open .mobile-menu li:nth-child(5) a{ transition-delay:.36s; }
   transition:opacity .7s var(--ease-out), transform .6s var(--ease-spring), box-shadow .6s var(--ease-out);
   will-change:opacity, transform;
   transform:translateZ(0);
-  box-shadow:0 22px 44px -20px rgba(18,22,40,.26), 0 8px 18px -8px rgba(18,22,40,.13);
+  box-shadow:0 26px 52px -18px rgba(18,22,40,.3), 0 10px 22px -7px rgba(18,22,40,.17);
 }
 .photo-tile .media{ aspect-ratio:4/5; cursor:pointer; }
 .photo-tile.landscape .media{ aspect-ratio:3/2; }
 /* Scroll-triggered lift on touch devices — mirrors .dest-card.in-focus. */
 @media (hover:none){
   .photo-tile.in-focus{ transform:translateY(-14px) scale(1.03); box-shadow:0 50px 80px -25px rgba(0,0,0,.32), 0 22px 38px -18px rgba(0,0,0,.2); }
-  .photo-tile.in-focus .media img{ filter:saturate(1) contrast(1); }
+  /* Colour here now comes from the scroll-scrubbed --rp rule above, not
+     .in-focus — left unset so it can't fight that rule's higher specificity. */
 }
 /* Desktop pointer hover — gentler lusion-style lift + zoom, cool soft shadow. */
 @media (hover:hover){
@@ -615,9 +632,9 @@ body.menu-open .mobile-menu li:nth-child(5) a{ transition-delay:.36s; }
    oversized next to the site's other imagery. Centred since it's now
    narrower than its container. */
 /* Both .inline-photo and .photo-pair figures also carry .photo-tile (see
-   markup) so they pick up the same box-shadow, hover-lift and JS pointer-tilt
-   as every other photo tile on the page — only the layout/aspect concerns
-   below are specific to these two components. */
+   markup) so they pick up the same box-shadow, hover-lift and scroll-scrubbed
+   fade as every other photo tile on the page — only the layout/aspect
+   concerns below are specific to these two components. */
 .inline-photo{ max-width:560px; margin-inline:auto; margin-block:clamp(2.2rem,4vw,3.5rem); }
 .inline-photo .media{ aspect-ratio:auto; }
 .inline-photo .media img{ display:block; height:auto; }
@@ -640,7 +657,7 @@ body.menu-open .mobile-menu li:nth-child(5) a{ transition-delay:.36s; }
 .photo-strip__item{ flex:0 0 160px; width:160px; scroll-snap-align:start; }
 .photo-strip .media{
   aspect-ratio:4/5;
-  box-shadow:0 18px 34px -18px rgba(18,22,40,.24), 0 6px 14px -6px rgba(18,22,40,.12);
+  box-shadow:0 22px 40px -16px rgba(18,22,40,.28), 0 8px 17px -5px rgba(18,22,40,.15);
 }
 /* Mix in a landscape shot within an otherwise-portrait strip: widen the item
    (rather than shrinking it to the 160px portrait width) so its rendered
@@ -762,6 +779,7 @@ body.menu-open .mobile-menu li:nth-child(5) a{ transition-delay:.36s; }
   [data-reveal]{ opacity:1 !important; transform:none !important; }
   [data-reveal-img]{ clip-path:none !important; }
   .media img{ filter:saturate(1) !important; transform:none !important; }
+  .photo-tile .media, .dest-card .media, .photo-strip__item .media{ opacity:1 !important; transform:none !important; }
 }
 
 /* ---------- Focus ---------- */
