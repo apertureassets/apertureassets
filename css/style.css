@@ -257,10 +257,11 @@ body.menu-open .mobile-menu li:nth-child(5) a{ transition-delay:.36s; }
    custom-property inheritance; deliberately higher-specificity than the
    desaturate/hover-bloom rules below (.media img), which still govern every
    OTHER image on the site (galleries without the tile-reveal system,
-   camera-bag, about, etc). Once a tile reaches full saturation it holds; it
-   does not desaturate again on further scroll. will-change:filter hints the
-   browser to keep this on its own compositing layer, since filter is the one
-   property still updating on every scroll frame. */
+   camera-bag, about, etc). Tracks scroll both directions, same as the
+   hero's --p — scroll back up past a tile and it desaturates again.
+   will-change:filter hints the browser to keep this on its own compositing
+   layer, since filter is the one property still updating on every scroll
+   frame. */
 .js .photo-tile[data-reveal],
 .js .dest-card[data-reveal],
 .js .photo-strip[data-reveal]{ opacity:1; transform:none; filter:none; }
