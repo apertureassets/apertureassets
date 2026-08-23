@@ -163,7 +163,13 @@ p{ text-wrap:pretty; }
 .brand__mark{ font-size:1.3rem; font-weight:600; letter-spacing:.02em; }
 .brand__mark span{ font-weight:300; }
 .brand__logo{ display:block; height:44px; width:auto; }
-.brand__logo--footer{ height:32px; }
+/* Fluid rather than a flat height so it scales smoothly with viewport width
+   instead of jumping at the 768px breakpoint (the previous flat 32px was also
+   getting silently overridden to 52px on mobile by .brand__logo's own mobile
+   bump below, since both are single-class selectors of equal specificity —
+   this clamp stands on its own and is reasserted inside that media query so
+   it can't be caught by that again). */
+.brand__logo--footer{ height:clamp(40px, 4vw, 48px); }
 .brand__tag{ font-size:.62rem; font-weight:500; letter-spacing:.28em; text-transform:uppercase; color:var(--ink-3); text-align:center; }
 
 .nav{ display:flex; align-items:center; gap:clamp(1.4rem,3vw,2.6rem); }
@@ -782,6 +788,7 @@ body.menu-open .mobile-menu li:nth-child(5) a{ transition-delay:.36s; }
   .nav{ display:none; }
   .burger{ display:block; }
   .brand__logo{ height:52px; }
+  .brand__logo--footer{ height:clamp(40px, 4vw, 48px); }   /* reasserted — see base rule's comment */
   .brand__tag{ font-size:.72rem; }
   .work-grid,.work-grid.cols-2,.dest-grid{ grid-template-columns:1fr 1fr; }
   .work-item.wide{ grid-column:span 2; }
