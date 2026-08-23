@@ -22,6 +22,11 @@
     window.addEventListener('resize', setHeaderHeight, { passive: true });
     // header padding animates on the scrolled-state toggle, which changes its height
     header.addEventListener('transitionend', setHeaderHeight);
+    // Manrope swapping in after the fallback font can change the header's
+    // height post-measurement, with no resize/transitionend to catch it —
+    // re-measure once webfonts settle so --header-h (used to keep full-bleed
+    // heroes clear of the fixed header) doesn't stick at a stale value.
+    if (document.fonts) document.fonts.ready.then(setHeaderHeight);
   }
 
   /* ---- Sticky sub-nav (destination pages: jump-to-city bar) ---- */
@@ -36,6 +41,7 @@
     setStickyOffset();
     window.addEventListener('resize', setStickyOffset, { passive: true });
     window.addEventListener('load', setStickyOffset);
+    if (document.fonts) document.fonts.ready.then(setStickyOffset);
 
     const setActiveCity = (city) => {
       subnavLinks.forEach(l => l.classList.toggle('is-active', l.dataset.city === city));

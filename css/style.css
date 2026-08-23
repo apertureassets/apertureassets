@@ -470,18 +470,24 @@ body.menu-open .mobile-menu li:nth-child(5) a{ transition-delay:.36s; }
 /* ---------- Destination detail ---------- */
 /* Detail hero — full-bleed band with the SAME scroll-driven zoom + fade-to-white
    as the home hero (.hero--full). JS drives --p (0 → 1) as the user scrolls past;
-   the image scales up, fades out and reveals the white page behind it. */
-.detail-hero{ height:min(84svh,720px); position:relative; overflow:hidden; isolation:isolate; }
-.detail-hero .media{ position:absolute; inset:0; border-radius:0; }
+   the image scales up, fades out and reveals the white page behind it.
+   The container reserves --header-h at its top and the media is offset by the
+   same amount (mirroring .hero--full .hero__media) so the fixed, opaque header
+   never overlaps the image — the full banner is visible at rest, not just once
+   scrolling starts. */
+.detail-hero{ height:calc(min(84svh,720px) + var(--header-h)); position:relative; overflow:hidden; isolation:isolate; }
+.detail-hero .media{ position:absolute; top:var(--header-h); right:0; bottom:0; left:0; border-radius:0; }
 /* Below 768px, the <picture> in each essay's markup swaps the wide 2400x1500
    banner for the destination's own 1200x1500 portrait hero.jpg (the sharp
    source the banner itself was generated from) via a matching max-width:768px
    <source>. Match the container to that portrait ratio so it displays full-
    frame with zero crop, instead of the old flat 84svh band, which was both
    the wrong shape for a landscape source (see prior fix) and cramped/short
-   as a mobile hero regardless. */
+   as a mobile hero regardless. box-sizing is switched to content-box here so
+   aspect-ratio sizes the image area alone, with --header-h added on top via
+   padding — otherwise the header reservation would eat into the 4:5 image. */
 @media (max-width:768px){
-  .detail-hero{ height:auto; aspect-ratio:4/5; }
+  .detail-hero{ height:auto; box-sizing:content-box; padding-top:var(--header-h); aspect-ratio:4/5; }
 }
 .detail-hero .media img{
   filter:saturate(.9);
