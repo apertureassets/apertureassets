@@ -74,7 +74,7 @@ also updates its tile automatically.
 | Filename | Used on | Suggested size | Shape |
 |---|---|---|---|
 | `hero.jpg` | Home — large hero image | 2400 × 1500 | landscape |
-| `about-portrait.jpg` | About — portrait of you | 1200 × 1500 | portrait |
+| `about-photo.jpg` | About — full-width banner photo (needn't be a portrait of you) | 1600 × 900 | landscape |
 | `about-wide.jpg` | About — wide banner | 2200 × 1160 | landscape |
 | `camerabag.jpg` | (optional) gear image — not currently placed, spare for your use | 2000 × 1300 | landscape |
 
