@@ -97,7 +97,7 @@ from `gallery.html`.
 
 - **Blog/business name** — search `Aperture Assets` across the `.html` files.
 - **Tagline** — search `Captured Honestly`.
-- **Your name** — search `Elena Marsh`.
+- **Your name** — search `about.html` for `Alex`.
 - **Email** — search `hello@apertureassets.com`.
 - **Colours & fonts** — the `:root` block at the top of `css/style.css`.
 
