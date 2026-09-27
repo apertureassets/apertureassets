@@ -754,7 +754,7 @@ body.menu-open .mobile-menu li:nth-child(5) a{ transition-delay:.36s; }
 .lightbox.open{ opacity:1; visibility:visible; }
 .lightbox img{ max-width:100%; max-height:82vh; border-radius:var(--radius); box-shadow:0 30px 80px -40px rgba(0,0,0,.4); transform:scale(.97); transition:transform .5s var(--ease-out); }
 .lightbox.open img{ transform:scale(1); }
-.lightbox__close,.lightbox__nav{ position:absolute; color:var(--ink); width:52px; height:52px; display:flex; align-items:center; justify-content:center; border:1px solid var(--line-2); border-radius:50%; background:var(--bg); transition:transform .3s, border-color .3s; }
+.lightbox__close,.lightbox__nav{ position:absolute; z-index:1; color:var(--ink); width:52px; height:52px; display:flex; align-items:center; justify-content:center; border:1px solid var(--line-2); border-radius:50%; background:var(--bg); transition:transform .3s, border-color .3s; }
 .lightbox__close:hover,.lightbox__nav:hover{ border-color:var(--ink); transform:scale(1.05); }
 .lightbox__close{ top:clamp(1rem,3vw,2rem); right:clamp(1rem,3vw,2rem); }
 .lightbox__nav{ top:50%; transform:translateY(-50%); }
