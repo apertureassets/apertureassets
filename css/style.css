@@ -530,9 +530,13 @@ body.menu-open .mobile-menu li:nth-child(5) a{ transition-delay:.36s; }
      cutting into the subject (peak/skyline) sitting in the upper part of
      the frame. Biasing both the static crop and the scroll-zoom's expansion
      point toward the top keeps the subject intact and takes the trim from
-     the (more expendable) foreground instead. */
-  object-position:center 20%;
-  transform-origin:center 20%;
+     the (more expendable) foreground instead. A 20% bias still let very wide,
+     short windows (ultra-wide monitors, short un-maximized browser windows)
+     crop enough to clip subjects sitting close to the very top of the frame
+     (e.g. South Korea's roof ornament) -- pinned fully to 0% so no amount of
+     top-crop is ever possible regardless of viewport aspect ratio. */
+  object-position:center 0%;
+  transform-origin:center 0%;
   transform:scale(calc(1 + var(--p, 0) * .42)) translateZ(0);
   opacity:calc(1 - var(--p, 0) * 1.4);
   transition:none;                 /* track scroll instantly (rAF already smooths) */
